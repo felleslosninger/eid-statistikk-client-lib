@@ -87,7 +87,7 @@ public class IngestClientTest {
     @Test
     public void shouldFailWithFailedWhenSomethingFailsInTransmission() {
         createWiremockStub(HttpURLConnection.HTTP_OK);
-        wireMockRule.addRequestProcessingDelay(10000);
+        wireMockRule.setGlobalFixedDelay(10000);
         expectedEx.expect(IngestService.Failed.class);
         ingestClient.ingest(aSeriesDefinition(), twoPoints(), BEARER_TOKEN);
     }
