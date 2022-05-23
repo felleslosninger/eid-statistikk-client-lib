@@ -1,22 +1,22 @@
 package no.difi.statistics.ingest.client.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 import java.io.IOException;
 import java.time.ZonedDateTime;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 import static java.lang.String.format;
 import static java.util.Collections.unmodifiableMap;
 import static java.util.stream.Collectors.joining;
 
-
-@XmlRootElement
+@JsonInclude(JsonInclude.Include.NON_ABSENT)
 public class TimeSeriesPoint {
 
     private ZonedDateTime timestamp;
@@ -27,12 +27,10 @@ public class TimeSeriesPoint {
         // Use builder
     }
 
-    @XmlElement
     public ZonedDateTime getTimestamp() {
         return timestamp;
     }
 
-    @XmlElement
     public Map<String, Long> getMeasurements() {
         return measurements;
     }
@@ -41,7 +39,6 @@ public class TimeSeriesPoint {
         return measurements.entrySet().stream().filter(e -> e.getKey().equals(name)).map(Map.Entry::getValue).findFirst();
     }
 
-    @XmlElement
     public Optional<Map<String, String>> getCategories() {
         return categories == null ? Optional.empty() : Optional.of(unmodifiableMap(categories));
     }
